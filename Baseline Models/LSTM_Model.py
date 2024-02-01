@@ -27,7 +27,7 @@ from nltk.tokenize import word_tokenize
 import shutil
 from sklearn.metrics import mean_squared_error
 
-df = pd.read_csv(“FF_Dataset_6hour_run.csv”)
+df = pd.read_csv("./FF_Dataset_6hour_run.csv")
 
 # Random Seed Pytorch Lightning
 pl.seed_everything(42)
