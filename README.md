@@ -3,7 +3,7 @@
 This repository contains implementation of methods experimented and introduced in the paper titled "Robust and Interpretable 2D Anomaly Prediction in Rocket Assembly Pipelines".
 
 **Baseline models**
-This folder includes the baseline models developed.
+* This folder includes the baseline models developed.
 
 Three baseline models:
 1. LSTM
