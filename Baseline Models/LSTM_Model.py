@@ -1,642 +1,519 @@
-{\rtf1\ansi\ansicpg1252\cocoartf2636
-\cocoatextscaling0\cocoaplatform0{\fonttbl\f0\fmodern\fcharset0 Courier;}
-{\colortbl;\red255\green255\blue255;\red113\green184\blue255;\red23\green23\blue23;\red202\green202\blue202;
-\red183\green111\blue179;\red212\green212\blue212;\red183\green111\blue179;\red23\green23\blue23;\red202\green202\blue202;
-\red194\green126\blue101;\red89\green156\blue62;\red167\green197\blue152;\red194\green126\blue101;\red70\green137\blue204;
-\red67\green192\blue160;\red212\green214\blue154;\red140\green211\blue254;}
-{\*\expandedcolortbl;;\cssrgb\c50980\c77647\c100000;\cssrgb\c11765\c11765\c11765;\cssrgb\c83137\c83137\c83137;
-\cssrgb\c77255\c52549\c75294;\cssrgb\c86275\c86275\c86275;\cssrgb\c77255\c52549\c75294;\cssrgb\c11765\c11765\c11765;\cssrgb\c83137\c83137\c83137;
-\cssrgb\c80784\c56863\c47059;\cssrgb\c41569\c66275\c30980;\cssrgb\c70980\c80784\c65882;\cssrgb\c80784\c56863\c47059;\cssrgb\c33725\c61176\c83922;
-\cssrgb\c30588\c78824\c69020;\cssrgb\c86275\c86275\c66667;\cssrgb\c61176\c86275\c99608;}
-\margl1440\margr1440\vieww11520\viewh8400\viewkind0
-\deftab720
-\pard\pardeftab720\partightenfactor0
+!pip install --quiet pytorch-lightning
+!pip install --quiet tqdm
 
-\f0\fs28 \cf2 \cb3 \expnd0\expndtw0\kerning0
-\outl0\strokewidth0 \strokec2 !\cf4 \strokec4 pip install --quiet pytorch-lightning\cb1 \
-\cf2 \cb3 \strokec2 !\cf4 \strokec4 pip install --quiet tqdm\cb1 \
-\
-\
-\pard\pardeftab720\partightenfactor0
-\cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  seaborn \cf5 \cb3 \strokec5 as\cf4 \cb3 \strokec4  sns\cb1 \
-\cf5 \cb3 \strokec5 from\cf4 \cb3 \strokec4  pylab \cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  rcParams\cb1 \
-\cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  matplotlib.pyplot \cf5 \cb3 \strokec5 as\cf4 \cb3 \strokec4  plt\cb1 \
-\cf5 \cb3 \strokec5 from\cf4 \cb3 \strokec4  matplotlib \cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  rc\cb1 \
-\cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  math\cb1 \
-\cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  matplotlib\cb1 \
-\cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  pandas \cf5 \cb3 \strokec5 as\cf4 \cb3 \strokec4  pd\cb1 \
-\cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  numpy \cf5 \cb3 \strokec5 as\cf4 \cb3 \strokec4  np\cb1 \
-\cf5 \cb3 \strokec5 from\cf4 \cb3 \strokec4  tqdm.notebook \cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  tqdm\cb1 \
-\cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  torch\cb1 \
-\cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  torch.autograd \cf5 \cb3 \strokec5 as\cf4 \cb3 \strokec4  autograd\cb1 \
-\cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  torch.nn \cf5 \cb3 \strokec5 as\cf4 \cb3 \strokec4  nn\cb1 \
-\cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  torch.nn.functional \cf5 \cb3 \strokec5 as\cf4 \cb3 \strokec4  F\cb1 \
-\cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  torch.optim \cf5 \cb3 \strokec5 as\cf4 \cb3 \strokec4  optim\cb1 \
-\cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  pytorch_lightning \cf5 \cb3 \strokec5 as\cf4 \cb3 \strokec4  pl\cb1 \
-\cf5 \cb3 \strokec5 from\cf4 \cb3 \strokec4  pytorch_lightning.callbacks \cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  ModelCheckpoint\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  EarlyStopping\cb1 \
-\cf5 \cb3 \strokec5 from\cf4 \cb3 \strokec4  pytorch_lightning.loggers \cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  TensorBoardLogger\cb1 \
-\cf5 \cb3 \strokec5 from\cf4 \cb3 \strokec4  torch.utils.data \cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  Dataset\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  DataLoader\cb1 \
-\cf5 \cb3 \strokec5 from\cf4 \cb3 \strokec4  sklearn.preprocessing \cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  MinMaxScaler\cb1 \
-\cf5 \cb3 \strokec5 from\cf4 \cb3 \strokec4  collections \cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  defaultdict\
-\cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  nltk\cb1 \
-\cf5 \cb3 \strokec5 from\cf4 \cb3 \strokec4  nltk.tokenize \cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  word_tokenize\cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf7 \cb8 \outl0\strokewidth0 import\cf9  shutil\cb1 \
-\cf7 \cb8 from\cf9  sklearn.metrics \cf7 import\cf9  mean_squared_error\cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \outl0\strokewidth0 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 df = pd.read_csv\cf6 \cb3 \strokec6 (\cf10 \strokec10 \'93FF_Dataset_6hour_run.csv\'94\cf6 \strokec6 )\
-\
-\pard\pardeftab720\partightenfactor0
-\cf11 \cb3 \strokec11 # Random Seed Pytorch Lightning\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 pl.seed_everything\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 42\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf11 \cb3 \strokec11 #for i in all column names except \cf13 \cb8 \outl0\strokewidth0 Description column\cf4 \cb1 \outl0\strokewidth0 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 column_names=\cf6 \cb3 \strokec6 [\cf10 \strokec10 'LoadCell_R03'\cf6 \strokec6 ,\cf10 \strokec10 'Description'\cf6 \strokec6 ]\cf4 \cb1 \strokec4 \
-\
-\cb3 df=df\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 column_names\cf6 \cb3 \strokec6 ]\cf4 \cb1 \strokec4 \
-\cb3 nltk.download\cf6 \cb3 \strokec6 (\cf10 \strokec10 'punkt'\cf6 \strokec6 )\cf4 \cb3 \strokec4   \cf11 \cb3 \strokec11 # Download the NLTK tokenizer data (if not downloaded)\cf4 \cb1 \strokec4 \
-\cb3 df\cf6 \cb3 \strokec6 [\cf10 \strokec10 'Tokenized_Description'\cf6 \strokec6 ]\cf4 \cb3 \strokec4  = df\cf6 \cb3 \strokec6 [\cf10 \strokec10 'Description'\cf6 \strokec6 ]\cf4 \cb3 \strokec4 .apply\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 lambda\cf4 \cb3 \strokec4  x\cf6 \cb3 \strokec6 :\cf4 \cb3 \strokec4  word_tokenize\cf6 \cb3 \strokec6 (\cf15 \cb3 \strokec15 str\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 x\cf6 \cb3 \strokec6 ))\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 if\cf4 \cb3 \strokec4  pd.notnull\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 x\cf6 \cb3 \strokec6 )\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 else\cf4 \cb3 \strokec4  \cf6 \cb3 \strokec6 [])\cf4 \cb1 \strokec4 \
-\
-\cb3 result = df\cf6 \cb3 \strokec6 [[\cf4 \cb3 \strokec4 column_names\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ],\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'Tokenized_Description'\cf6 \strokec6 ]]\cf4 \cb3 \strokec4 .values.tolist\cf6 \cb3 \strokec6 ()\cf4 \cb1 \strokec4 \
-\
-\cb3 all_tokens = \cf15 \cb3 \strokec15 set\cf6 \cb3 \strokec6 ()\cf4 \cb1 \strokec4 \
-\cb3 _ = df\cf6 \cb3 \strokec6 [\cf10 \strokec10 'Tokenized_Description'\cf6 \strokec6 ]\cf4 \cb3 \strokec4 .apply\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 lambda\cf4 \cb3 \strokec4  x\cf6 \cb3 \strokec6 :\cf4 \cb3 \strokec4  all_tokens.update\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 x\cf6 \cb3 \strokec6 )\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 if\cf4 \cb3 \strokec4  x \cf5 \cb3 \strokec5 else\cf4 \cb3 \strokec4  all_tokens.add\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 None\cf6 \cb3 \strokec6 ))\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf11 \cb3 \strokec11 # List of all different tokens\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 different_tokens = \cf15 \cb3 \strokec15 list\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 all_tokens\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 tokens = \cf6 \cb3 \strokec6 \{\cf10 \strokec10 'None'\cf6 \strokec6 :\cf12 \cb3 \strokec12 0.0\cf6 \cb3 \strokec6 ,\cf10 \strokec10 'Nose'\cf6 \strokec6 :\cf12 \cb3 \strokec12 1.0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'nose'\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 2.0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'Removed'\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 3.0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'crashed'\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 4.0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'R03'\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 5.0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'Nosecone'\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 6.0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'BothBodies'\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 7.0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'R04'\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 8.0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'Door2_TimedOut'\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 9.0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'TopBody'\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 10.0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'and'\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 11.0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'ESTOPPED'\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 12.0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'Body2'\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 13.0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 'tail'\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 14.0\cf6 \cb3 \strokec6 \}\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 replace_with_numeric\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 tokens_dict\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 tokens_list\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  \cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 tokens_dict\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 token\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 if\cf4 \cb3 \strokec4  token \cf2 \strokec2 in\cf4 \strokec4  tokens_dict \cf5 \cb3 \strokec5 else\cf4 \cb3 \strokec4  \cf14 \cb3 \strokec14 None\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 for\cf4 \cb3 \strokec4  token \cf2 \strokec2 in\cf4 \strokec4  tokens_list\cf6 \cb3 \strokec6 ]\cf4 \cb1 \strokec4 \
-\
-\cb3 df\cf6 \cb3 \strokec6 [\cf10 \strokec10 'Tokenized_Description1'\cf6 \strokec6 ]\cf4 \cb3 \strokec4  = df\cf6 \cb3 \strokec6 [\cf10 \strokec10 'Tokenized_Description'\cf6 \strokec6 ]\cf4 \cb3 \strokec4 .apply\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 lambda\cf4 \cb3 \strokec4  x\cf6 \cb3 \strokec6 :\cf4 \cb3 \strokec4  replace_with_numeric\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 tokens\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  x\cf6 \cb3 \strokec6 ))\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 calculate_average\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 row\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3     numeric_values = \cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 value \cf5 \cb3 \strokec5 for\cf4 \cb3 \strokec4  value \cf2 \strokec2 in\cf4 \strokec4  row \cf5 \cb3 \strokec5 if\cf4 \cb3 \strokec4  value \cf2 \strokec2 is\cf4 \strokec4  \cf2 \strokec2 not\cf4 \strokec4  \cf14 \cb3 \strokec14 None\cf6 \cb3 \strokec6 ]\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 sum\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 numeric_values\cf6 \cb3 \strokec6 )\cf4 \cb3 \strokec4  / \cf16 \cb3 \strokec16 len\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 numeric_values\cf6 \cb3 \strokec6 )\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 if\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 len\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 numeric_values\cf6 \cb3 \strokec6 )\cf4 \cb3 \strokec4  > \cf12 \cb3 \strokec12 0\cf4 \cb3 \strokec4  \cf5 \cb3 \strokec5 else\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 0\cf4 \cb1 \strokec4 \
-\
-\cb3 df\cf6 \cb3 \strokec6 [\cf10 \strokec10 'Average'\cf6 \strokec6 ]\cf4 \cb3 \strokec4  = df\cf6 \cb3 \strokec6 [\cf10 \strokec10 'Tokenized_Description1'\cf6 \strokec6 ]\cf4 \cb3 \strokec4 .apply\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 calculate_average\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 features_df=df\cf6 \cb3 \strokec6 [[\cf4 \cb3 \strokec4 column_names\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ],\cf10 \strokec10 'Average'\cf6 \strokec6 ]]\cf4 \cb1 \strokec4 \
-\cb3 features_df=features_df.rename\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 columns=\cf6 \cb3 \strokec6 \{\cf10 \strokec10 "Average"\cf6 \strokec6 :\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 "Description"\cf6 \strokec6 \})\cf4 \cb1 \strokec4 \
-\
-#train_test split\
-\cb3 train_df = features_df\cf6 \cb3 \strokec6 [:\cf15 \cb3 \strokec15 int\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 0.8\cf4 \cb3 \strokec4 *\cf6 \cb3 \strokec6 (\cf16 \cb3 \strokec16 len\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 features_df\cf6 \cb3 \strokec6 )))]\cf4 \cb1 \strokec4 \
-\cb3 test_df = features_df\cf6 \cb3 \strokec6 [\cf15 \cb3 \strokec15 int\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 0.8\cf4 \cb3 \strokec4 *\cf6 \cb3 \strokec6 (\cf16 \cb3 \strokec16 len\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 features_df\cf6 \cb3 \strokec6 ))):]\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf11 \cb3 \strokec11 # Normalising the Data\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf5 \cb3 \strokec5 from\cf4 \cb3 \strokec4  sklearn.preprocessing \cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4  StandardScaler\cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 scaler = StandardScaler\cf6 \cb3 \strokec6 ()\cf4 \cb1 \strokec4 \
-\cb3 scalery = scaler.fit\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 train_df\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 train_df = pd.DataFrame\cf6 \cb3 \strokec6 (\cf4 \cb1 \strokec4 \
-\cb3     scalery.transform\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 train_df\cf6 \cb3 \strokec6 ),\cf4 \cb1 \strokec4 \
-\cb3     index = train_df.index\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3     columns = train_df.columns\cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 train_df.head\cf6 \cb3 \strokec6 ()\cf4 \cb1 \strokec4 \
-\
-\cb3 test_df = pd.DataFrame\cf6 \cb3 \strokec6 (\cf4 \cb1 \strokec4 \
-\cb3     scalery.transform\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 test_df\cf6 \cb3 \strokec6 ),\cf4 \cb1 \strokec4 \
-\cb3     index = test_df.index\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3     columns = test_df.columns\cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 test_df.head\cf6 \cb3 \strokec6 ()\cf4 \cb1 \strokec4 \
-\
-#Generating dataframes in multiple sequences\
-\pard\pardeftab720\partightenfactor0
-\cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 create_sequences\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 input_data\cf4 \cb3 \strokec4 : \cf17 \cb3 \strokec17 pd\cf4 \cb3 \strokec4 .\cf17 \cb3 \strokec17 DataFrame\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 target_columns\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 sequence_length\cf4 \cb3 \strokec4 =\cf12 \cb3 \strokec12 3\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3     sequences = \cf6 \cb3 \strokec6 []\cf4 \cb1 \strokec4 \
-\cb3     data_size = \cf16 \cb3 \strokec16 len\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 input_data\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3     \cf5 \cb3 \strokec5 for\cf4 \cb3 \strokec4  i \cf2 \strokec2 in\cf4 \strokec4  tqdm\cf6 \cb3 \strokec6 (\cf16 \cb3 \strokec16 range\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 data_size - sequence_length\cf6 \cb3 \strokec6 )):\cf4 \cb1 \strokec4 \
-\cb3         sequence = input_data.iloc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 i\cf6 \cb3 \strokec6 :\cf4 \cb3 \strokec4 i+sequence_length\cf6 \cb3 \strokec6 ]\cf4 \cb1 \strokec4 \
-\
-\cb3         label_position = i + sequence_length\cb1 \
-\cb3         labels = input_data.iloc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 label_position\cf6 \cb3 \strokec6 ][\cf4 \cb3 \strokec4 target_columns\cf6 \cb3 \strokec6 ]\cf4 \cb1 \strokec4 \
-\
-\cb3         sequences.append\cf6 \cb3 \strokec6 ((\cf4 \cb3 \strokec4 sequence\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  labels\cf6 \cb3 \strokec6 ))\cf4 \cb1 \strokec4 \
-\
-\cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  sequences\cb1 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf2 \cb3 \strokec2 #Creating Training and Testing Sequences\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 SEQUENCE_LENGTH = \cf12 \cb3 \strokec12 120\cf4 \cb1 \strokec4 \
-\cb3 target_columns = column_names\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 train_sequences = create_sequences\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 train_df\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  target_columns\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  sequence_length=SEQUENCE_LENGTH\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 test_sequences = create_sequences\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 test_df\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  target_columns\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  sequence_length=SEQUENCE_LENGTH\cf6 \cb3 \strokec6 )\
-\
-\pard\pardeftab720\partightenfactor0
-\cf11 \cb3 \strokec11 # To check sequence, label and shape\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 "Label: "\cf6 \strokec6 ,\cf4 \cb3 \strokec4  train_sequences\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ][\cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ])\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 ""\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 "Sequence: "\cf6 \strokec6 ,\cf4 \cb3 \strokec4 train_sequences\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ][\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ])\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 "Sequence Shape: "\cf6 \strokec6 ,\cf4 \cb3 \strokec4 train_sequences\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ][\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 .shape\cf6 \cb3 \strokec6 )\
-\
-\
-#Creating PyTorch Datasets\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf14 \cb3 \strokec14 class\cf4 \cb3 \strokec4  \cf15 \cb3 \strokec15 FFDataset\cf4 \cb3 \strokec4 (\cf15 \cb3 \strokec15 Dataset\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 __init__\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 sequences\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .sequences = sequences\cb1 \
-\
-\cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 __len__\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 len\cf6 \cb3 \strokec6 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .sequences\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 __getitem__\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 idx\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     sequence\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  label = \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .sequences\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 idx\cf6 \cb3 \strokec6 ]\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  \cf15 \cb3 \strokec15 dict\cf6 \cb3 \strokec6 (\cf4 \cb1 \strokec4 \
-\cb3         sequence = torch.Tensor\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 sequence.to_numpy\cf6 \cb3 \strokec6 ()),\cf4 \cb1 \strokec4 \
-\cb3         label = torch.tensor\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 label\cf6 \cb3 \strokec6 )\cf4 \cb3 \strokec4 .\cf15 \cb3 \strokec15 float\cf6 \cb3 \strokec6 ()\cf4 \cb1 \strokec4 \
-\cb3     \cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf14 \cb3 \strokec14 class\cf4 \cb3 \strokec4  \cf15 \cb3 \strokec15 FFDataModule\cf4 \cb3 \strokec4 (\cf15 \cb3 \strokec15 pl\cf4 \cb3 \strokec4 .\cf15 \cb3 \strokec15 LightningDataModule\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 __init__\cf4 \cb3 \strokec4 (\cb1 \
-\cb3       \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 train_sequences\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 test_sequences\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 batch_size\cf4 \cb3 \strokec4  = \cf12 \cb3 \strokec12 8\cf4 \cb1 \strokec4 \
-\cb3   )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     super\cf6 \cb3 \strokec6 ()\cf4 \cb3 \strokec4 .\cf16 \cb3 \strokec16 __init__\cf6 \cb3 \strokec6 ()\cf4 \cb1 \strokec4 \
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .train_sequences = train_sequences\cb1 \
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .test_sequences = test_sequences\cb1 \
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .batch_size = batch_size\cb1 \
-\
-\cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 setup\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 stage\cf4 \cb3 \strokec4 =\cf14 \cb3 \strokec14 None\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .train_dataset = FFDataset\cf6 \cb3 \strokec6 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .train_sequences\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .test_dataset = FFDataset\cf6 \cb3 \strokec6 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .test_sequences\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 train_dataloader\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  DataLoader\cf6 \cb3 \strokec6 (\cf4 \cb1 \strokec4 \
-\cb3         \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .train_dataset\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3         batch_size = \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .batch_size\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3         shuffle = \cf14 \cb3 \strokec14 False\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3         num_workers = \cf12 \cb3 \strokec12 2\cf4 \cb1 \strokec4 \
-\cb3     \cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 val_dataloader\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  DataLoader\cf6 \cb3 \strokec6 (\cf4 \cb1 \strokec4 \
-\cb3         \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .test_dataset\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3         batch_size = \cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3         shuffle = \cf14 \cb3 \strokec14 False\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3         num_workers = \cf12 \cb3 \strokec12 1\cf4 \cb1 \strokec4 \
-\cb3     \cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 test_dataloader\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  DataLoader\cf6 \cb3 \strokec6 (\cf4 \cb1 \strokec4 \
-\cb3         \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .test_dataset\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3         batch_size = \cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3         shuffle = \cf14 \cb3 \strokec14 False\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3         num_workers = \cf12 \cb3 \strokec12 1\cf4 \cb1 \strokec4 \
-\cb3     \cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-#Model parameters\
-\cb3 N_EPOCHS = \cf12 \cb3 \strokec12 5\cf4 \cb1 \strokec4 \
-\cb3 BATCH_SIZE = \cf12 \cb3 \strokec12 64\cf4 \cb1 \strokec4 \
-\
-\cb3 data_module = FFDataModule\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 train_sequences\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  test_sequences\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  batch_size = BATCH_SIZE\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 data_module.setup\cf6 \cb3 \strokec6 ()\cf4 \cb1 \strokec4 \
-\
-\cb3 train_dataset = FFDataset\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 train_sequences\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf11 \cb3 \strokec11 # Testing the dataloader\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 a = \cf16 \cb3 \strokec16 iter\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 train_dataset\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 b = \cf16 \cb3 \strokec16 next\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 a\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 "Sequence Shape: "\cf6 \strokec6 ,\cf4 \cb3 \strokec4  b\cf6 \cb3 \strokec6 [\cf10 \strokec10 "sequence"\cf6 \strokec6 ]\cf4 \cb3 \strokec4 .shape\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 "Label: \{\} and Label Shape: \{\}"\cf4 \cb3 \strokec4 .\cf16 \cb3 \strokec16 format\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 b\cf6 \cb3 \strokec6 [\cf10 \strokec10 "label"\cf6 \strokec6 ],\cf4 \cb3 \strokec4  b\cf6 \cb3 \strokec6 [\cf10 \strokec10 "label"\cf6 \strokec6 ]\cf4 \cb3 \strokec4 .shape\cf6 \cb3 \strokec6 )\cf4 \cb3 \strokec4  \cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\
-#Model\
-\pard\pardeftab720\partightenfactor0
-\cf14 \cb3 \strokec14 class\cf4 \cb3 \strokec4  \cf15 \cb3 \strokec15 PredictionModel\cf4 \cb3 \strokec4 (\cf15 \cb3 \strokec15 nn\cf4 \cb3 \strokec4 .\cf15 \cb3 \strokec15 Module\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 __init__\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 n_features\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 n_hidden\cf4 \cb3 \strokec4 =\cf12 \cb3 \strokec12 128\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 n_layers\cf4 \cb3 \strokec4 =\cf12 \cb3 \strokec12 2\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     super\cf6 \cb3 \strokec6 ()\cf4 \cb3 \strokec4 .\cf16 \cb3 \strokec16 __init__\cf6 \cb3 \strokec6 ()\cf4 \cb1 \strokec4 \
-\
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .n_hidden = n_hidden\cb1 \
-\
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .lstm = nn.LSTM\cf6 \cb3 \strokec6 (\cf4 \cb1 \strokec4 \
-\cb3         input_size = n_features\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3         hidden_size = n_hidden\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3         batch_first = \cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3         num_layers = n_layers\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf11 \cb3 \strokec11 # Stack LSTMs\cf4 \cb1 \strokec4 \
-\cb3         dropout = \cf12 \cb3 \strokec12 0.2\cf4 \cb1 \strokec4 \
-\cb3     \cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .regressor = nn.Linear\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 n_hidden\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 2\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 forward\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 x\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .lstm.flatten_parameters\cf6 \cb3 \strokec6 ()\cf4 \cb3 \strokec4   \cf11 \cb3 \strokec11 # For distrubuted training\cf4 \cb1 \strokec4 \
-\
-\cb3     _\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 hidden\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  _\cf6 \cb3 \strokec6 )\cf4 \cb3 \strokec4  = \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .lstm\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 x\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3     \cf11 \cb3 \strokec11 # We want the output from the last layer to go into the final\cf4 \cb1 \strokec4 \
-\cb3     \cf11 \cb3 \strokec11 # regressor linear layer\cf4 \cb1 \strokec4 \
-\cb3     out = hidden\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 -1\cf6 \cb3 \strokec6 ]\cf4 \cb1 \strokec4 \
-\
-\cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .regressor\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 out\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\
-\pard\pardeftab720\partightenfactor0
-\cf14 \cb3 \strokec14 class\cf4 \cb3 \strokec4  \cf15 \cb3 \strokec15 Predictor\cf4 \cb3 \strokec4 (\cf15 \cb3 \strokec15 pl\cf4 \cb3 \strokec4 .\cf15 \cb3 \strokec15 LightningModule\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 __init__\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 n_features\cf4 \cb3 \strokec4 : \cf17 \cb3 \strokec17 int\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     super\cf6 \cb3 \strokec6 ()\cf4 \cb3 \strokec4 .\cf16 \cb3 \strokec16 __init__\cf6 \cb3 \strokec6 ()\cf4 \cb1 \strokec4 \
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .model = PredictionModel\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 n_features\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .criterion = nn.MSELoss\cf6 \cb3 \strokec6 ()\cf4 \cb1 \strokec4 \
-\
-\cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 forward\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 x\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 labels\cf4 \cb3 \strokec4 =\cf14 \cb3 \strokec14 None\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     output = \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .model\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 x\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3     loss = \cf12 \cb3 \strokec12 0\cf4 \cb1 \strokec4 \
-\
-\cb3     \cf5 \cb3 \strokec5 if\cf4 \cb3 \strokec4  labels \cf2 \strokec2 is\cf4 \strokec4  \cf2 \strokec2 not\cf4 \strokec4  \cf14 \cb3 \strokec14 None\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3       loss = \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .criterion\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 output\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  labels.unsqueeze\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 dim=\cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ))\cf4 \cb1 \strokec4 \
-\
-\cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  loss\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  output\cb1 \
-\
-\cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 training_step\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 batch\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 batch_idx\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     sequences = batch\cf6 \cb3 \strokec6 [\cf10 \strokec10 "sequence"\cf6 \strokec6 ]\cf4 \cb1 \strokec4 \
-\cb3     labels = batch\cf6 \cb3 \strokec6 [\cf10 \strokec10 "label"\cf6 \strokec6 ]\cf4 \cb1 \strokec4 \
-\
-\cb3     loss\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  output = \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .forward\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 sequences\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  labels\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .log\cf6 \cb3 \strokec6 (\cf10 \strokec10 "train_loss"\cf6 \strokec6 ,\cf4 \cb3 \strokec4  loss\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  prog_bar=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  logger=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3     \cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 "train_loss"\cf6 \strokec6 ,\cf4 \cb3 \strokec4  loss\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  loss\cb1 \
-\
-\cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 validation_step\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 batch\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 batch_idx\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     sequences = batch\cf6 \cb3 \strokec6 [\cf10 \strokec10 "sequence"\cf6 \strokec6 ]\cf4 \cb1 \strokec4 \
-\cb3     labels = batch\cf6 \cb3 \strokec6 [\cf10 \strokec10 "label"\cf6 \strokec6 ]\cf4 \cb1 \strokec4 \
-\
-\cb3     loss\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  output = \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .forward\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 sequences\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  labels\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .log\cf6 \cb3 \strokec6 (\cf10 \strokec10 "val_loss"\cf6 \strokec6 ,\cf4 \cb3 \strokec4  loss\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  prog_bar=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  logger=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3     \cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 "val_loss"\cf6 \strokec6 ,\cf4 \cb3 \strokec4  loss\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  loss\cb1 \
-\
-\cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 test_step\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 batch\cf4 \cb3 \strokec4 , \cf17 \cb3 \strokec17 batch_idx\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     sequences = batch\cf6 \cb3 \strokec6 [\cf10 \strokec10 "sequence"\cf6 \strokec6 ]\cf4 \cb1 \strokec4 \
-\cb3     labels = batch\cf6 \cb3 \strokec6 [\cf10 \strokec10 "label"\cf6 \strokec6 ]\cf4 \cb1 \strokec4 \
-\
-\cb3     loss\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  output = \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .forward\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 sequences\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  labels\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3     \cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .log\cf6 \cb3 \strokec6 (\cf10 \strokec10 "test_loss"\cf6 \strokec6 ,\cf4 \cb3 \strokec4  loss\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  prog_bar=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  logger=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3     \cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 "test_loss"\cf6 \strokec6 ,\cf4 \cb3 \strokec4  loss\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  loss\cb1 \
-\
-\cb3   \cf14 \cb3 \strokec14 def\cf4 \cb3 \strokec4  \cf16 \cb3 \strokec16 configure_optimizers\cf4 \cb3 \strokec4 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 )\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 return\cf4 \cb3 \strokec4  optim.AdamW\cf6 \cb3 \strokec6 (\cf17 \cb3 \strokec17 self\cf4 \cb3 \strokec4 .model.parameters\cf6 \cb3 \strokec6 ())\cf4 \cb1 \strokec4 \
-\
-\
-\cb3 n_features = b\cf6 \cb3 \strokec6 [\cf10 \strokec10 "sequence"\cf6 \strokec6 ]\cf4 \cb3 \strokec4 .shape\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ]\cf4 \cb1 \strokec4 \
-\cb3 n_features\cb1 \
-\
-\cb3 model = Predictor\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 n_features = n_features\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 n_features\cb1 \
-\
-\
-\pard\pardeftab720\partightenfactor0
-\cf5 \cb3 \strokec5 for\cf4 \cb3 \strokec4  item \cf2 \strokec2 in\cf4 \strokec4  data_module.train_dataloader\cf6 \cb3 \strokec6 ():\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3   \cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 item\cf6 \cb3 \strokec6 [\cf10 \strokec10 "sequence"\cf6 \strokec6 ]\cf4 \cb3 \strokec4 .shape\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3   \cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 item\cf6 \cb3 \strokec6 [\cf10 \strokec10 "label"\cf6 \strokec6 ]\cf4 \cb3 \strokec4 .shape\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3   \cf5 \cb3 \strokec5 break\cf4 \cb1 \strokec4 \
-\
-\
-\cb3 shutil.rmtree\cf6 \cb3 \strokec6 (\cf10 \strokec10 '/content/lightning_logs'\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 checkpoint_callback = ModelCheckpoint\cf6 \cb3 \strokec6 (\cf4 \cb1 \strokec4 \
-\cb3     dirpath=\cf10 \cb3 \strokec10 "checkpoints"\cf6 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3     filename=\cf10 \cb3 \strokec10 "best-checkpoint"\cf6 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3     save_top_k = \cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3     verbose = \cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3     monitor = \cf10 \cb3 \strokec10 "val_loss"\cf6 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3     mode = \cf10 \cb3 \strokec10 "min"\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 logger = TensorBoardLogger\cf6 \cb3 \strokec6 (\cf10 \strokec10 "lightning_logs"\cf6 \strokec6 ,\cf4 \cb3 \strokec4  name = \cf10 \cb3 \strokec10 "btc-price"\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 early_stopping_callback = EarlyStopping\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 monitor = \cf10 \cb3 \strokec10 "val_loss"\cf6 \strokec6 ,\cf4 \cb3 \strokec4  patience = \cf12 \cb3 \strokec12 2\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\
-\cb3 trainer = pl.Trainer\cf6 \cb3 \strokec6 (\cf4 \cb1 \strokec4 \
-\cb3     logger = logger\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3     \cf11 \cb3 \strokec11 #checkpoint_callback = checkpoint_callback,\cf4 \cb1 \strokec4 \
-\cb3     callbacks = \cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 early_stopping_callback\cf6 \cb3 \strokec6 ],\cf4 \cb1 \strokec4 \
-\cb3     max_epochs = N_EPOCHS\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3     \cf11 \cb3 \strokec11 #gpus = 1,\cf4 \cb1 \strokec4 \
-\cb3    \cf11 \cb3 \strokec11 # progress_bar_refresh_rate = 30\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 trainer.fit\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 model\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  data_module\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-#Testing the trained model\
-\cb3 checkpoint_path = \cf10 \cb3 \strokec10 \'93Add path to .ckpt here\'94\cf4 \cb1 \strokec4 \
-\cb3 trained_model = Predictor.load_from_checkpoint\cf6 \cb3 \strokec6 (\cf4 \cb1 \strokec4 \
-\cb3     checkpoint_path\cf6 \cb3 \strokec6 ,\cf4 \cb1 \strokec4 \
-\cb3     n_features = n_features   \cf11 \cb3 \strokec11 # 2 in this case\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf6 \cb3 \strokec6 )\
-\
-\pard\pardeftab720\partightenfactor0
-\cf11 \cb3 \strokec11 # Freezing the model for faster predictions\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 trained_model.freeze\cf6 \cb3 \strokec6 ()\cf4 \cb1 \strokec4 \
-\
-#Getting predictions\
-\cb3 test_dataset = FFDataset\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 test_sequences\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 predictions_1 = \cf6 \cb3 \strokec6 []\cf4 \cb3 \strokec4   \cf11 \cb3 \strokec11 # Predictions for the first column\cf4 \cb1 \strokec4 \
-\cb3 predictions_2 = \cf6 \cb3 \strokec6 []\cf4 \cb3 \strokec4   \cf11 \cb3 \strokec11 # Predictions for the second column\cf4 \cb1 \strokec4 \
-\cb3 labels_1 = \cf6 \cb3 \strokec6 []\cf4 \cb3 \strokec4        \cf11 \cb3 \strokec11 # Labels for the first column\cf4 \cb1 \strokec4 \
-\cb3 labels_2 = \cf6 \cb3 \strokec6 []\cf4 \cb3 \strokec4        \cf11 \cb3 \strokec11 # Labels for the second column\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf5 \cb3 \strokec5 for\cf4 \cb3 \strokec4  item \cf2 \strokec2 in\cf4 \strokec4  tqdm\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 test_dataset\cf6 \cb3 \strokec6 ):\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3     sequence = item\cf6 \cb3 \strokec6 [\cf10 \strokec10 "sequence"\cf6 \strokec6 ]\cf4 \cb1 \strokec4 \
-\cb3     label = item\cf6 \cb3 \strokec6 [\cf10 \strokec10 "label"\cf6 \strokec6 ]\cf4 \cb1 \strokec4 \
-\cb3     sequence=sequence.to\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 device\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3     _\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  output = trained_model\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 sequence\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3     \cf11 \cb3 \strokec11 # Assuming output is a tensor of shape (2,)\cf4 \cb1 \strokec4 \
-\cb3     pred_1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  pred_2 = output.tolist\cf6 \cb3 \strokec6 ()\cf4 \cb3 \strokec4   \cf11 \cb3 \strokec11 # Splitting predictions for two columns\cf4 \cb1 \strokec4 \
-\cb3     predictions_1.append\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 pred_1\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3     predictions_2.append\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 pred_2\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3     label_1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  label_2 = label.tolist\cf6 \cb3 \strokec6 ()\cf4 \cb3 \strokec4   \cf11 \cb3 \strokec11 # Splitting labels for two columns\cf4 \cb1 \strokec4 \
-\cb3     labels_1.append\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 label_1\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3     labels_2.append\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 label_2\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 test_dataset = FFDataset\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 test_sequences\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 test_dataset\cb1 \
-\cb3 test_sequences = pd.DataFrame\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 test_sequences\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  columns=\cf6 \cb3 \strokec6 [\cf10 \strokec10 'column_name'\cf6 \strokec6 ,\cf10 \strokec10 'e'\cf6 \strokec6 ])\cf4 \cb1 \strokec4 \
-\cb3 test_sequences\cb1 \
-\
-\
-\pard\pardeftab720\partightenfactor0
-\cf11 \cb3 \strokec11 # Convert lists to NumPy arrays\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 predictions_1 = np.array\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 predictions_1\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 predictions_2 = np.array\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 predictions_2\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 labels_1 = np.array\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 labels_1\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 labels_2 = np.array\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 labels_2\cf6 \cb3 \strokec6 )\
-\
-\
-#Get MSE values\cf4 \cb1 \strokec4 \
-\cb3 mse_1=mean_squared_error\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 labels_1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  predictions_1\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 rmse_1=np.sqrt\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 mse_1\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 "\cf6 \strokec6 \{\cf4 \cb3 \strokec4 column_names\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ]\}\cf10 \strokec10  (RMSE): \cf6 \strokec6 \{\cf4 \cb3 \strokec4 rmse_1\cf12 \cb3 \strokec12 :.4f\cf6 \cb3 \strokec6 \}\cf10 \strokec10 "\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 "\cf6 \strokec6 \{\cf4 \cb3 \strokec4 column_names\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ]\}\cf10 \strokec10  (MSE): \cf6 \strokec6 \{\cf4 \cb3 \strokec4 mse_1\cf12 \cb3 \strokec12 :.4f\cf6 \cb3 \strokec6 \}\cf10 \strokec10 "\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 mse_2=mean_squared_error\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 labels_2\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  predictions_2\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 rmse_2=np.sqrt\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 mse_2\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 "\cf6 \strokec6 \{\cf4 \cb3 \strokec4 column_names\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ]\}\cf10 \strokec10  (RMSE): \cf6 \strokec6 \{\cf4 \cb3 \strokec4 rmse_2\cf12 \cb3 \strokec12 :.4f\cf6 \cb3 \strokec6 \}\cf10 \strokec10 "\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 "\cf6 \strokec6 \{\cf4 \cb3 \strokec4 column_names\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ]\}\cf10 \strokec10  (MSE): \cf6 \strokec6 \{\cf4 \cb3 \strokec4 mse_2\cf12 \cb3 \strokec12 :.4f\cf6 \cb3 \strokec6 \}\cf10 \strokec10 "\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 all_label=np.concatenate\cf6 \cb3 \strokec6 ((\cf4 \cb3 \strokec4 labels_1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4 labels_2\cf6 \cb3 \strokec6 ))\cf4 \cb1 \strokec4 \
-\cb3 all_pred=np.concatenate\cf6 \cb3 \strokec6 ((\cf4 \cb3 \strokec4 predictions_1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4 predictions_2\cf6 \cb3 \strokec6 ))\cf4 \cb1 \strokec4 \
-\cb3 mse_all=mean_squared_error\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 all_label\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  all_pred\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 rmse_all=np.sqrt\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 mse_all\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 "All (RMSE): \cf6 \strokec6 \{\cf4 \cb3 \strokec4 rmse_all\cf12 \cb3 \strokec12 :.4f\cf6 \cb3 \strokec6 \}\cf10 \strokec10 "\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 "All (MSE): \cf6 \strokec6 \{\cf4 \cb3 \strokec4 mse_all\cf12 \cb3 \strokec12 :.4f\cf6 \cb3 \strokec6 \}\cf10 \strokec10 "\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 "predicted"\cf6 \strokec6 ,\cf4 \cb3 \strokec4 predictions_1\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ],\cf4 \cb3 \strokec4 predictions_2\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4  \cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 "labels"\cf6 \strokec6 ,\cf4 \cb3 \strokec4 labels_1\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ],\cf4 \cb3 \strokec4 labels_2\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ])\cf4 \cb1 \strokec4 \
-\
-\
-#Doing inverse scaling\
-\pard\pardeftab720\partightenfactor0
-\cf11 \cb3 \strokec11 # Assuming pred1 and pred2 are your prediction arrays\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 pred1 = predictions_1.reshape\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 -1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 pred2 = labels_1.reshape\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 -1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf11 \cb3 \strokec11 # Descale the predictions\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 descaled_pred1 = scalery.inverse_transform\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 np.concatenate\cf6 \cb3 \strokec6 ([\cf4 \cb3 \strokec4 pred1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  np.zeros_like\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 pred1\cf6 \cb3 \strokec6 )],\cf4 \cb3 \strokec4  axis=\cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ))[:,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ]\cf4 \cb1 \strokec4 \
-\cb3 descaled_pred2 = scalery.inverse_transform\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 np.concatenate\cf6 \cb3 \strokec6 ([\cf4 \cb3 \strokec4 np.zeros_like\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 pred2\cf6 \cb3 \strokec6 ),\cf4 \cb3 \strokec4  pred2\cf6 \cb3 \strokec6 ],\cf4 \cb3 \strokec4  axis=\cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ))[:,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ]\cf4 \cb1 \strokec4 \
-\
-\cb3 predictions_descaled_1 = descaled_pred1\cb1 \
-\cb3 labels_descaled_1 = descaled_pred2\cb1 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 predictions_descaled_1\cf6 \cb3 \strokec6 [:\cf12 \cb3 \strokec12 3\cf6 \cb3 \strokec6 ])\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 labels_descaled_1\cf6 \cb3 \strokec6 [:\cf12 \cb3 \strokec12 3\cf6 \cb3 \strokec6 ])\cf4 \cb1 \strokec4 \
-\
-\
-\pard\pardeftab720\partightenfactor0
-\cf11 \cb3 \strokec11 # Assuming pred1 and pred2 are your prediction arrays\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 pred_desc1 = predictions_2.reshape\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 -1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 pred_desc2 = labels_2.reshape\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 -1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf11 \cb3 \strokec11 # Descale the predictions\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 descaled_pred1 = scalery.inverse_transform\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 np.concatenate\cf6 \cb3 \strokec6 ([\cf4 \cb3 \strokec4 pred1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  np.zeros_like\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 pred_desc1\cf6 \cb3 \strokec6 )],\cf4 \cb3 \strokec4  axis=\cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ))[:,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ]\cf4 \cb1 \strokec4 \
-\cb3 descaled_pred2 = scalery.inverse_transform\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 np.concatenate\cf6 \cb3 \strokec6 ([\cf4 \cb3 \strokec4 np.zeros_like\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 pred_desc2\cf6 \cb3 \strokec6 ),\cf4 \cb3 \strokec4  pred_desc2\cf6 \cb3 \strokec6 ],\cf4 \cb3 \strokec4  axis=\cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ))[:,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ]\cf4 \cb1 \strokec4 \
-\
-\cb3 predictions_descaled_2 = descaled_pred1\cb1 \
-\cb3 labels_descaled_2 = descaled_pred2\cb1 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 predictions_descaled_2\cf6 \cb3 \strokec6 [:\cf12 \cb3 \strokec12 3\cf6 \cb3 \strokec6 ])\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 labels_descaled_2\cf6 \cb3 \strokec6 [:\cf12 \cb3 \strokec12 3\cf6 \cb3 \strokec6 ])\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 vdf_pred_scaled=predictions_1.\cf16 \cb3 \strokec16 round\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 vdf_label_scaled=labels_1.\cf16 \cb3 \strokec16 round\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 desc_pred_scaled=predictions_2.\cf16 \cb3 \strokec16 round\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 desc_label_scaled=labels_2.\cf16 \cb3 \strokec16 round\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 vdf_pred_descaled=predictions_descaled_1.\cf16 \cb3 \strokec16 round\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 vdf_label_descaled=labels_descaled_1.\cf16 \cb3 \strokec16 round\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 desc_pred_descaled=predictions_descaled_2.\cf16 \cb3 \strokec16 round\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 desc_label_descaled=labels_descaled_2.\cf16 \cb3 \strokec16 round\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 'vdf_pred_scaled '\cf6 \strokec6 ,\cf4 \cb3 \strokec4 vdf_pred_scaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 'vdf_label_scaled '\cf6 \strokec6 ,\cf4 \cb3 \strokec4 vdf_label_scaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 'desc_pred_scaled '\cf6 \strokec6 ,\cf4 \cb3 \strokec4 desc_pred_scaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 'desc_label_scaled '\cf6 \strokec6 ,\cf4 \cb3 \strokec4 desc_label_scaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 'vdf_pred_descaled '\cf6 \strokec6 ,\cf4 \cb3 \strokec4 vdf_pred_descaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 'vdf_label_descaled '\cf6 \strokec6 ,\cf4 \cb3 \strokec4 vdf_label_descaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 'desc_pred_descaled '\cf6 \strokec6 ,\cf4 \cb3 \strokec4 desc_pred_descaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf10 \strokec10 'desc_label_descaled '\cf6 \strokec6 ,\cf4 \cb3 \strokec4 desc_label_descaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-#check unique value counts of predictions\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts = np.unique\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 predictions_2.\cf16 \cb3 \strokec16 round\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 2\cf6 \cb3 \strokec6 ),\cf4 \cb3 \strokec4  return_counts=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf15 \cb3 \strokec15 dict\cf6 \cb3 \strokec6 (\cf16 \cb3 \strokec16 zip\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts\cf6 \cb3 \strokec6 ))\
-\
-\pard\pardeftab720\partightenfactor0
-\cf9 \cb1 \outl0\strokewidth0 #check unique value counts of actual values\cf6 \cb3 \outl0\strokewidth0 \strokec6 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 \strokec4 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts = np.unique\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_label_descaled\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  return_counts=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf15 \cb3 \strokec15 dict\cf6 \cb3 \strokec6 (\cf16 \cb3 \strokec16 zip\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts\cf6 \cb3 \strokec6 ))\
-\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 \strokec4 desc_pred_scaled = np.where\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 np.isclose\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_pred_scaled\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 -0.0\cf6 \cb3 \strokec6 ),\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  desc_pred_scaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 desc_pred_scaled = np.where\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_pred_scaled == \cf12 \cb3 \strokec12 2\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 9\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  desc_pred_scaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 desc_pred_scaled = np.where\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_pred_scaled == \cf12 \cb3 \strokec12 5\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 8\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  desc_pred_scaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 desc_pred_scaled = np.where\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_pred_scaled == \cf12 \cb3 \strokec12 3\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 6\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  desc_pred_scaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 desc_pred_scaled = np.where\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_pred_scaled == \cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  \cf12 \cb3 \strokec12 5\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  desc_pred_scaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts = np.unique\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_pred_scaled\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  return_counts=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf15 \cb3 \strokec15 dict\cf6 \cb3 \strokec6 (\cf16 \cb3 \strokec16 zip\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts\cf6 \cb3 \strokec6 ))\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf5 \cb3 \strokec5 from\cf4 \cb3 \strokec4  sklearn.metrics \cf5 \cb3 \strokec5 import\cf4 \cb3 \strokec4   classification_report\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4 confusion_matrix\cb1 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 target_names = \cf6 \cb3 \strokec6 [\cf10 \strokec10 '0.0'\cf6 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 '4.0'\cf6 \strokec6 ,\cf10 \strokec10 '5.0'\cf6 \strokec6 ,\cf10 \strokec10 '6.0'\cf6 \strokec6 ,\cf10 \strokec10 '8.0'\cf6 \strokec6 ,\cf10 \strokec10 '9.0'\cf6 \strokec6 ]\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 classification_report\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_label_scaled\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  predictions_2.\cf16 \cb3 \strokec16 round\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ),\cf4 \cb3 \strokec4  target_names=target_names\cf6 \cb3 \strokec6 ))\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 confusion_matrix\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_label_descaled\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  desc_pred_scaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 temp_desc=predictions_2.\cf16 \cb3 \strokec16 round\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 2\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts = np.unique\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 temp_desc\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  return_counts=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf15 \cb3 \strokec15 dict\cf6 \cb3 \strokec6 (\cf16 \cb3 \strokec16 zip\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts\cf6 \cb3 \strokec6 ))\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 x=temp_desc.size\cb1 \
-\cb3 x\cb1 \
-\
-#creating thresholds for different anomaly classes\
-\pard\pardeftab720\partightenfactor0
-\cf5 \cb3 \strokec5 for\cf4 \cb3 \strokec4  j \cf2 \strokec2 in\cf4 \strokec4  \cf16 \cb3 \strokec16 range\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4 x\cf6 \cb3 \strokec6 ):\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3     \cf5 \cb3 \strokec5 if\cf4 \cb3 \strokec4  temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 < \cf12 \cb3 \strokec12 -0.18\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3       temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 =\cf12 \cb3 \strokec12 0\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 elif\cf4 \cb3 \strokec4  temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 >= \cf12 \cb3 \strokec12 -0.18\cf4 \cb3 \strokec4  \cf2 \strokec2 and\cf4 \strokec4  temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 <\cf12 \cb3 \strokec12 4.35\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3       temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 =\cf12 \cb3 \strokec12 4\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 elif\cf4 \cb3 \strokec4  temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 >=\cf12 \cb3 \strokec12 4.35\cf4 \cb3 \strokec4  \cf2 \strokec2 and\cf4 \strokec4  temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 < \cf12 \cb3 \strokec12 4.53\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3       temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 =\cf12 \cb3 \strokec12 5\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 elif\cf4 \cb3 \strokec4  temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 >=\cf12 \cb3 \strokec12 4.53\cf4 \cb3 \strokec4  \cf2 \strokec2 and\cf4 \strokec4  temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 <\cf12 \cb3 \strokec12 4.63\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3       temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 =\cf12 \cb3 \strokec12 6\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 elif\cf4 \cb3 \strokec4  temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 >=\cf12 \cb3 \strokec12 4.63\cf4 \cb3 \strokec4  \cf2 \strokec2 and\cf4 \strokec4  temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 <\cf12 \cb3 \strokec12 4.76\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3       temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 =\cf12 \cb3 \strokec12 8\cf4 \cb1 \strokec4 \
-\cb3     \cf5 \cb3 \strokec5 elif\cf4 \cb3 \strokec4  temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 >= \cf12 \cb3 \strokec12 4.76\cf6 \cb3 \strokec6 :\cf4 \cb1 \strokec4 \
-\cb3       temp_desc\cf6 \cb3 \strokec6 [\cf4 \cb3 \strokec4 j\cf6 \cb3 \strokec6 ]\cf4 \cb3 \strokec4 =\cf12 \cb3 \strokec12 9\cf4 \cb1 \strokec4 \
-\
-#check the new distribution \
-\cb3 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts = np.unique\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 temp_desc\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  return_counts=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf15 \cb3 \strokec15 dict\cf6 \cb3 \strokec6 (\cf16 \cb3 \strokec16 zip\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts\cf6 \cb3 \strokec6 ))\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts = np.unique\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_label_descaled\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  return_counts=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf15 \cb3 \strokec15 dict\cf6 \cb3 \strokec6 (\cf16 \cb3 \strokec16 zip\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts\cf6 \cb3 \strokec6 ))\
-\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 \strokec4 target_names = \cf6 \cb3 \strokec6 [\cf10 \strokec10 '0.0'\cf6 \strokec6 ,\cf4 \cb3 \strokec4  \cf10 \cb3 \strokec10 '4.0'\cf6 \strokec6 ,\cf10 \strokec10 '5.0'\cf6 \strokec6 ,\cf10 \strokec10 '6.0'\cf6 \strokec6 ,\cf10 \strokec10 '8.0'\cf6 \strokec6 ,\cf10 \strokec10 '9.0'\cf6 \strokec6 ]\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 classification_report\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_label_descaled\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  temp_desc\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  target_names=target_names\cf6 \cb3 \strokec6 ))\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 confusion_matrix\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_label_descaled\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  temp_desc\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\
-\cb3 temp_arr = np.array\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 temp_desc\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 labels_1_temp = np.array\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_label_descaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 mse_1=mean_squared_error\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 labels_1_temp\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  temp_arr\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 rmse_1=np.sqrt\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 mse_1\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 "\cf6 \strokec6 \{\cf4 \cb3 \strokec4 column_names\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ]\}\cf10 \strokec10  (RMSE): \cf6 \strokec6 \{\cf4 \cb3 \strokec4 rmse_1\cf12 \cb3 \strokec12 :.4f\cf6 \cb3 \strokec6 \}\cf10 \strokec10 "\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 "\cf6 \strokec6 \{\cf4 \cb3 \strokec4 column_names\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 1\cf6 \cb3 \strokec6 ]\}\cf10 \strokec10  (MSE): \cf6 \strokec6 \{\cf4 \cb3 \strokec4 mse_1\cf12 \cb3 \strokec12 :.4f\cf6 \cb3 \strokec6 \}\cf10 \strokec10 "\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 par_arr = np.array\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 vdf_pred_descaled\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 labels_1_pred = np.array\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_label_descaled\cf6 \cb3 \strokec6 )\
-\
-\
-\cf4 \cb3 \strokec4 all_label=np.concatenate\cf6 \cb3 \strokec6 ((\cf4 \cb3 \strokec4 labels_1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4 labels_1_temp\cf6 \cb3 \strokec6 ))\cf4 \cb1 \strokec4 \
-\cb3 all_pred=np.concatenate\cf6 \cb3 \strokec6 ((\cf4 \cb3 \strokec4 predictions_1\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4 temp_arr\cf6 \cb3 \strokec6 ))\cf4 \cb1 \strokec4 \
-\cb3 mse_all=mean_squared_error\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 all_label\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  all_pred\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\cb3 rmse_all=np.sqrt\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 mse_all\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 "All (RMSE): \cf6 \strokec6 \{\cf4 \cb3 \strokec4 rmse_all\cf12 \cb3 \strokec12 :.4f\cf6 \cb3 \strokec6 \}\cf10 \strokec10 "\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\cf16 \cb3 \strokec16 print\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 "All (MSE): \cf6 \strokec6 \{\cf4 \cb3 \strokec4 mse_all\cf12 \cb3 \strokec12 :.4f\cf6 \cb3 \strokec6 \}\cf10 \strokec10 "\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 actual=desc_label_descaled.\cf16 \cb3 \strokec16 round\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts = np.unique\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 actual\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  return_counts=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\pard\pardeftab720\partightenfactor0
-\cf15 \cb3 \strokec15 dict\cf6 \cb3 \strokec6 (\cf16 \cb3 \strokec16 zip\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 unique\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  counts\cf6 \cb3 \strokec6 ))\
-\
-\pard\pardeftab720\partightenfactor0
-\cf4 \cb3 \strokec4 temp=pd.DataFrame\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 desc_pred_scaled\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4 columns =\cf6 \cb3 \strokec6 [\cf10 \strokec10 'prediction'\cf6 \strokec6 ])\cf4 \cb1 \strokec4 \
-\cb3 actual=pd.DataFrame\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 actual\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4 columns =\cf6 \cb3 \strokec6 [\cf10 \strokec10 'actual'\cf6 \strokec6 ])\cf4 \cb1 \strokec4 \
-\
-\cb3 predictions_scaled_2=pd.DataFrame\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 vdf_pred_scaled\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4 columns =\cf6 \cb3 \strokec6 [\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 '\cf6 \strokec6 \{\cf4 \cb3 \strokec4 column_names\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ]\}\cf10 \strokec10 '\cf6 \strokec6 ])\cf4 \cb1 \strokec4 \
-\
-\cb3 temp=pd.DataFrame\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 temp_desc\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4 columns =\cf6 \cb3 \strokec6 [\cf10 \strokec10 'prediction'\cf6 \strokec6 ])\cf4 \cb1 \strokec4 \
-\
-\cb3 predictions_descaled_2=pd.DataFrame\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 predictions_descaled_1.\cf16 \cb3 \strokec16 round\cf6 \cb3 \strokec6 (\cf12 \cb3 \strokec12 6\cf6 \cb3 \strokec6 ),\cf4 \cb3 \strokec4 columns =\cf6 \cb3 \strokec6 [\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 '\cf6 \strokec6 \{\cf4 \cb3 \strokec4 column_names\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ]\}\cf10 \strokec10 '\cf6 \strokec6 ])\cf4 \cb1 \strokec4 \
-\
-\cb3 merged_df = pd.merge\cf6 \cb3 \strokec6 (\cf4 \cb3 \strokec4 predictions_descaled_2\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  temp\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  left_index=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 ,\cf4 \cb3 \strokec4  right_index=\cf14 \cb3 \strokec14 True\cf6 \cb3 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\cb3 merged_df.to_csv\cf6 \cb3 \strokec6 ((\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 "\cf6 \strokec6 \{\cf4 \cb3 \strokec4 column_names\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ]\}\cf10 \strokec10 _lstm.csv"\cf6 \strokec6 ))\
-\
-\
-\cf4 \cb3 \strokec4 vdf = pd.read_csv\cf6 \cb3 \strokec6 (\cf14 \cb3 \strokec14 f\cf10 \cb3 \strokec10 "\cf6 \strokec6 \{\cf4 \cb3 \strokec4 column_names\cf6 \cb3 \strokec6 [\cf12 \cb3 \strokec12 0\cf6 \cb3 \strokec6 ]\}\cf10 \strokec10 _lstm.csv"\cf6 \strokec6 )\cf4 \cb1 \strokec4 \
-\
-\
-\
-\
-\
-\
-\
-\
-\
-\
-}
+
+import seaborn as sns
+from pylab import rcParams
+import matplotlib.pyplot as plt
+from matplotlib import rc
+import math
+import matplotlib
+import pandas as pd
+import numpy as np
+from tqdm.notebook import tqdm
+import torch
+import torch.autograd as autograd
+import torch.nn as nn
+import torch.nn.functional as F
+import torch.optim as optim
+import pytorch_lightning as pl
+from pytorch_lightning.callbacks import ModelCheckpoint, EarlyStopping
+from pytorch_lightning.loggers import TensorBoardLogger
+from torch.utils.data import Dataset, DataLoader
+from sklearn.preprocessing import MinMaxScaler
+from collections import defaultdict
+import nltk
+from nltk.tokenize import word_tokenize
+import shutil
+from sklearn.metrics import mean_squared_error
+
+df = pd.read_csv(“FF_Dataset_6hour_run.csv”)
+
+# Random Seed Pytorch Lightning
+pl.seed_everything(42)
+
+#for i in all column names except Description column
+column_names=['LoadCell_R03','Description']
+
+df=df[column_names]
+nltk.download('punkt')  # Download the NLTK tokenizer data (if not downloaded)
+df['Tokenized_Description'] = df['Description'].apply(lambda x: word_tokenize(str(x)) if pd.notnull(x) else [])
+
+result = df[[column_names[0], 'Tokenized_Description']].values.tolist()
+
+all_tokens = set()
+_ = df['Tokenized_Description'].apply(lambda x: all_tokens.update(x) if x else all_tokens.add(None))
+
+# List of all different tokens
+different_tokens = list(all_tokens)
+
+tokens = {'None':0.0,'Nose':1.0, 'nose': 2.0, 'Removed': 3.0, 'crashed': 4.0, 'R03': 5.0, 'Nosecone': 6.0, 'BothBodies': 7.0, 'R04': 8.0, 'Door2_TimedOut': 9.0, 'TopBody': 10.0, 'and': 11.0, 'ESTOPPED': 12.0, 'Body2': 13.0, 'tail': 14.0}
+
+def replace_with_numeric(tokens_dict, tokens_list):
+    return [tokens_dict[token] if token in tokens_dict else None for token in tokens_list]
+
+df['Tokenized_Description1'] = df['Tokenized_Description'].apply(lambda x: replace_with_numeric(tokens, x))
+
+def calculate_average(row):
+    numeric_values = [value for value in row if value is not None]
+    return sum(numeric_values) / len(numeric_values) if len(numeric_values) > 0 else 0
+
+df['Average'] = df['Tokenized_Description1'].apply(calculate_average)
+features_df=df[[column_names[0],'Average']]
+features_df=features_df.rename(columns={"Average": "Description"})
+
+#train_test split
+train_df = features_df[:int(0.8*(len(features_df)))]
+test_df = features_df[int(0.8*(len(features_df))):]
+
+# Normalising the Data
+from sklearn.preprocessing import StandardScaler
+scaler = StandardScaler()
+scalery = scaler.fit(train_df)
+
+train_df = pd.DataFrame(
+    scalery.transform(train_df),
+    index = train_df.index,
+    columns = train_df.columns
+)
+train_df.head()
+
+test_df = pd.DataFrame(
+    scalery.transform(test_df),
+    index = test_df.index,
+    columns = test_df.columns
+)
+test_df.head()
+
+#Generating dataframes in multiple sequences
+def create_sequences(input_data: pd.DataFrame, target_columns, sequence_length=3):
+    sequences = []
+    data_size = len(input_data)
+
+    for i in tqdm(range(data_size - sequence_length)):
+        sequence = input_data.iloc[i:i+sequence_length]
+
+        label_position = i + sequence_length
+        labels = input_data.iloc[label_position][target_columns]
+
+        sequences.append((sequence, labels))
+
+    return sequences
+
+#Creating Training and Testing Sequences
+SEQUENCE_LENGTH = 120
+target_columns = column_names
+
+train_sequences = create_sequences(train_df, target_columns, sequence_length=SEQUENCE_LENGTH)
+test_sequences = create_sequences(test_df, target_columns, sequence_length=SEQUENCE_LENGTH)
+
+# To check sequence, label and shape
+print("Label: ", train_sequences[0][1])
+print("")
+print("Sequence: ",train_sequences[0][0])
+print("Sequence Shape: ",train_sequences[0][0].shape)
+
+
+#Creating PyTorch Datasets
+class FFDataset(Dataset):
+  def __init__(self, sequences):
+    self.sequences = sequences
+
+  def __len__(self):
+    return len(self.sequences)
+
+  def __getitem__(self, idx):
+    sequence, label = self.sequences[idx]
+    return dict(
+        sequence = torch.Tensor(sequence.to_numpy()),
+        label = torch.tensor(label).float()
+    )
+
+class FFDataModule(pl.LightningDataModule):
+  def __init__(
+      self, train_sequences, test_sequences, batch_size = 8
+  ):
+    super().__init__()
+    self.train_sequences = train_sequences
+    self.test_sequences = test_sequences
+    self.batch_size = batch_size
+
+  def setup(self, stage=None):
+    self.train_dataset = FFDataset(self.train_sequences)
+    self.test_dataset = FFDataset(self.test_sequences)
+
+  def train_dataloader(self):
+    return DataLoader(
+        self.train_dataset,
+        batch_size = self.batch_size,
+        shuffle = False,
+        num_workers = 2
+    )
+
+  def val_dataloader(self):
+    return DataLoader(
+        self.test_dataset,
+        batch_size = 1,
+        shuffle = False,
+        num_workers = 1
+    )
+  def test_dataloader(self):
+    return DataLoader(
+        self.test_dataset,
+        batch_size = 1,
+        shuffle = False,
+        num_workers = 1
+    )
+
+#Model parameters
+N_EPOCHS = 5
+BATCH_SIZE = 64
+
+data_module = FFDataModule(train_sequences, test_sequences, batch_size = BATCH_SIZE)
+data_module.setup()
+
+train_dataset = FFDataset(train_sequences)
+
+# Testing the dataloader
+a = iter(train_dataset)
+b = next(a)
+print("Sequence Shape: ", b["sequence"].shape)
+print("Label: {} and Label Shape: {}".format(b["label"], b["label"].shape) )
+
+
+#Model
+class PredictionModel(nn.Module):
+  def __init__(self, n_features, n_hidden=128, n_layers=2):
+    super().__init__()
+
+    self.n_hidden = n_hidden
+
+    self.lstm = nn.LSTM(
+        input_size = n_features,
+        hidden_size = n_hidden,
+        batch_first = True,
+        num_layers = n_layers, # Stack LSTMs
+        dropout = 0.2
+    )
+
+    self.regressor = nn.Linear(n_hidden, 2)
+
+  def forward(self, x):
+    self.lstm.flatten_parameters()  # For distrubuted training
+
+    _, (hidden, _) = self.lstm(x)
+    # We want the output from the last layer to go into the final
+    # regressor linear layer
+    out = hidden[-1]
+
+    return self.regressor(out)
+
+
+class Predictor(pl.LightningModule):
+
+  def __init__(self, n_features: int):
+    super().__init__()
+    self.model = PredictionModel(n_features)
+    self.criterion = nn.MSELoss()
+
+  def forward(self, x, labels=None):
+    output = self.model(x)
+
+    loss = 0
+
+    if labels is not None:
+      loss = self.criterion(output, labels.unsqueeze(dim=1))
+
+    return loss, output
+
+  def training_step(self, batch, batch_idx):
+    sequences = batch["sequence"]
+    labels = batch["label"]
+
+    loss, output = self.forward(sequences, labels)
+
+    self.log("train_loss", loss, prog_bar=True, logger=True)
+    print("train_loss", loss)
+    return loss
+
+  def validation_step(self, batch, batch_idx):
+    sequences = batch["sequence"]
+    labels = batch["label"]
+
+    loss, output = self.forward(sequences, labels)
+
+    self.log("val_loss", loss, prog_bar=True, logger=True)
+    print("val_loss", loss)
+    return loss
+
+  def test_step(self, batch, batch_idx):
+    sequences = batch["sequence"]
+    labels = batch["label"]
+
+    loss, output = self.forward(sequences, labels)
+
+    self.log("test_loss", loss, prog_bar=True, logger=True)
+    print("test_loss", loss)
+    return loss
+
+  def configure_optimizers(self):
+    return optim.AdamW(self.model.parameters())
+
+
+n_features = b["sequence"].shape[1]
+n_features
+
+model = Predictor(n_features = n_features)
+n_features
+
+
+for item in data_module.train_dataloader():
+  print(item["sequence"].shape)
+  print(item["label"].shape)
+  break
+
+
+shutil.rmtree('/content/lightning_logs')
+
+checkpoint_callback = ModelCheckpoint(
+    dirpath="checkpoints",
+    filename="best-checkpoint",
+    save_top_k = 1,
+    verbose = True,
+    monitor = "val_loss",
+    mode = "min"
+)
+
+logger = TensorBoardLogger("lightning_logs", name = "btc-price")
+
+early_stopping_callback = EarlyStopping(monitor = "val_loss", patience = 2)
+
+
+trainer = pl.Trainer(
+    logger = logger,
+    #checkpoint_callback = checkpoint_callback,
+    callbacks = [early_stopping_callback],
+    max_epochs = N_EPOCHS,
+    #gpus = 1,
+   # progress_bar_refresh_rate = 30
+)
+
+trainer.fit(model, data_module)
+
+#Testing the trained model
+checkpoint_path = “Add path to .ckpt here”
+trained_model = Predictor.load_from_checkpoint(
+    checkpoint_path,
+    n_features = n_features   # 2 in this case
+)
+
+# Freezing the model for faster predictions
+trained_model.freeze()
+
+#Getting predictions
+test_dataset = FFDataset(test_sequences)
+predictions_1 = []  # Predictions for the first column
+predictions_2 = []  # Predictions for the second column
+labels_1 = []       # Labels for the first column
+labels_2 = []       # Labels for the second column
+
+for item in tqdm(test_dataset):
+    sequence = item["sequence"]
+    label = item["label"]
+    sequence=sequence.to(device)
+    _, output = trained_model(sequence)
+
+    # Assuming output is a tensor of shape (2,)
+    pred_1, pred_2 = output.tolist()  # Splitting predictions for two columns
+    predictions_1.append(pred_1)
+    predictions_2.append(pred_2)
+
+    label_1, label_2 = label.tolist()  # Splitting labels for two columns
+    labels_1.append(label_1)
+    labels_2.append(label_2)
+
+test_dataset = FFDataset(test_sequences)
+test_dataset
+test_sequences = pd.DataFrame(test_sequences, columns=['column_name','e'])
+test_sequences
+
+
+# Convert lists to NumPy arrays
+predictions_1 = np.array(predictions_1)
+predictions_2 = np.array(predictions_2)
+labels_1 = np.array(labels_1)
+labels_2 = np.array(labels_2)
+
+
+#Get MSE values
+mse_1=mean_squared_error(labels_1, predictions_1)
+rmse_1=np.sqrt(mse_1)
+print(f"{column_names[0]} (RMSE): {rmse_1:.4f}")
+print(f"{column_names[0]} (MSE): {mse_1:.4f}")
+mse_2=mean_squared_error(labels_2, predictions_2)
+rmse_2=np.sqrt(mse_2)
+print(f"{column_names[1]} (RMSE): {rmse_2:.4f}")
+print(f"{column_names[1]} (MSE): {mse_2:.4f}")
+
+all_label=np.concatenate((labels_1,labels_2))
+all_pred=np.concatenate((predictions_1,predictions_2))
+mse_all=mean_squared_error(all_label, all_pred)
+rmse_all=np.sqrt(mse_all)
+print(f"All (RMSE): {rmse_all:.4f}")
+print(f"All (MSE): {mse_all:.4f}")
+
+print("predicted",predictions_1[0],predictions_2[0] )
+print("labels",labels_1[0],labels_2[0])
+
+
+#Doing inverse scaling
+# Assuming pred1 and pred2 are your prediction arrays
+pred1 = predictions_1.reshape(-1, 1)
+pred2 = labels_1.reshape(-1, 1)
+
+# Descale the predictions
+descaled_pred1 = scalery.inverse_transform(np.concatenate([pred1, np.zeros_like(pred1)], axis=1))[:, 0]
+descaled_pred2 = scalery.inverse_transform(np.concatenate([np.zeros_like(pred2), pred2], axis=1))[:, 1]
+
+predictions_descaled_1 = descaled_pred1
+labels_descaled_1 = descaled_pred2
+
+print(predictions_descaled_1[:3])
+print(labels_descaled_1[:3])
+
+
+# Assuming pred1 and pred2 are your prediction arrays
+pred_desc1 = predictions_2.reshape(-1, 1)
+pred_desc2 = labels_2.reshape(-1, 1)
+
+# Descale the predictions
+descaled_pred1 = scalery.inverse_transform(np.concatenate([pred1, np.zeros_like(pred_desc1)], axis=1))[:, 0]
+descaled_pred2 = scalery.inverse_transform(np.concatenate([np.zeros_like(pred_desc2), pred_desc2], axis=1))[:, 1]
+
+predictions_descaled_2 = descaled_pred1
+labels_descaled_2 = descaled_pred2
+
+print(predictions_descaled_2[:3])
+print(labels_descaled_2[:3])
+
+vdf_pred_scaled=predictions_1.round(0)
+vdf_label_scaled=labels_1.round(0)
+desc_pred_scaled=predictions_2.round(0)
+desc_label_scaled=labels_2.round(0)
+
+vdf_pred_descaled=predictions_descaled_1.round(0)
+vdf_label_descaled=labels_descaled_1.round(0)
+desc_pred_descaled=predictions_descaled_2.round(0)
+desc_label_descaled=labels_descaled_2.round(0)
+
+print('vdf_pred_scaled ',vdf_pred_scaled)
+print('vdf_label_scaled ',vdf_label_scaled)
+print('desc_pred_scaled ',desc_pred_scaled)
+print('desc_label_scaled ',desc_label_scaled)
+
+
+print('vdf_pred_descaled ',vdf_pred_descaled)
+print('vdf_label_descaled ',vdf_label_descaled)
+print('desc_pred_descaled ',desc_pred_descaled)
+print('desc_label_descaled ',desc_label_descaled)
+
+#check unique value counts of predictions
+unique, counts = np.unique(predictions_2.round(2), return_counts=True)
+dict(zip(unique, counts))
+
+#check unique value counts of actual values
+unique, counts = np.unique(desc_label_descaled, return_counts=True)
+dict(zip(unique, counts))
+
+desc_pred_scaled = np.where(np.isclose(desc_pred_scaled, -0.0), 0, desc_pred_scaled)
+desc_pred_scaled = np.where(desc_pred_scaled == 2, 9, desc_pred_scaled)
+desc_pred_scaled = np.where(desc_pred_scaled == 5, 8, desc_pred_scaled)
+desc_pred_scaled = np.where(desc_pred_scaled == 3, 6, desc_pred_scaled)
+desc_pred_scaled = np.where(desc_pred_scaled == 1, 5, desc_pred_scaled)
+
+unique, counts = np.unique(desc_pred_scaled, return_counts=True)
+dict(zip(unique, counts))
+
+from sklearn.metrics import  classification_report,confusion_matrix
+target_names = ['0.0', '4.0','5.0','6.0','8.0','9.0']
+print(classification_report(desc_label_scaled, predictions_2.round(0), target_names=target_names))
+
+confusion_matrix(desc_label_descaled, desc_pred_scaled)
+
+temp_desc=predictions_2.round(2)
+
+unique, counts = np.unique(temp_desc, return_counts=True)
+
+dict(zip(unique, counts))
+
+x=temp_desc.size
+x
+
+#creating thresholds for different anomaly classes
+for j in range(0,x):
+    if temp_desc[j]< -0.18:
+      temp_desc[j]=0
+    elif temp_desc[j]>= -0.18 and temp_desc[j]<4.35:
+      temp_desc[j]=4
+    elif temp_desc[j]>=4.35 and temp_desc[j]< 4.53:
+      temp_desc[j]=5
+    elif temp_desc[j]>=4.53 and temp_desc[j]<4.63:
+      temp_desc[j]=6
+    elif temp_desc[j]>=4.63 and temp_desc[j]<4.76:
+      temp_desc[j]=8
+    elif temp_desc[j]>= 4.76:
+      temp_desc[j]=9
+
+#check the new distribution
+unique, counts = np.unique(temp_desc, return_counts=True)
+dict(zip(unique, counts))
+
+unique, counts = np.unique(desc_label_descaled, return_counts=True)
+dict(zip(unique, counts))
+
+target_names = ['0.0', '4.0','5.0','6.0','8.0','9.0']
+print(classification_report(desc_label_descaled, temp_desc, target_names=target_names))
+
+confusion_matrix(desc_label_descaled, temp_desc)
+
+
+temp_arr = np.array(temp_desc)
+
+labels_1_temp = np.array(desc_label_descaled)
+
+mse_1=mean_squared_error(labels_1_temp, temp_arr)
+rmse_1=np.sqrt(mse_1)
+print(f"{column_names[1]} (RMSE): {rmse_1:.4f}")
+print(f"{column_names[1]} (MSE): {mse_1:.4f}")
+par_arr = np.array(vdf_pred_descaled)
+
+labels_1_pred = np.array(desc_label_descaled)
+
+
+all_label=np.concatenate((labels_1,labels_1_temp))
+all_pred=np.concatenate((predictions_1,temp_arr))
+mse_all=mean_squared_error(all_label, all_pred)
+rmse_all=np.sqrt(mse_all)
+print(f"All (RMSE): {rmse_all:.4f}")
+print(f"All (MSE): {mse_all:.4f}")
+
+actual=desc_label_descaled.round(0)
+
+unique, counts = np.unique(actual, return_counts=True)
+dict(zip(unique, counts))
+
+temp=pd.DataFrame(desc_pred_scaled,columns =['prediction'])
+actual=pd.DataFrame(actual,columns =['actual'])
+
+predictions_scaled_2=pd.DataFrame(vdf_pred_scaled,columns =[f'{column_names[0]}'])
+
+temp=pd.DataFrame(temp_desc,columns =['prediction'])
+
+predictions_descaled_2=pd.DataFrame(predictions_descaled_1.round(6),columns =[f'{column_names[0]}'])
+
+merged_df = pd.merge(predictions_descaled_2, temp, left_index=True, right_index=True)
+
+merged_df.to_csv((f"{column_names[0]}_lstm.csv"))
+
+
+vdf = pd.read_csv(f"{column_names[0]}_lstm.csv")
