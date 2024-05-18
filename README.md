@@ -1,4 +1,4 @@
-# RI2AP
+# Repository for "RI2AP: Robust and Interpretable 2D Anomaly Prediction in Assembly Pipelines" Paper
 
 This repository contains implementation of methods experimented and introduced in the paper titled "Robust and Interpretable 2D Anomaly Prediction in Rocket Assembly Pipelines".
 
